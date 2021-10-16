@@ -20,5 +20,6 @@ from .product_order.delete_product_order_composer import delete_product_order_co
 from .order.create_order_composer import create_order_composer
 from .order.list_orders_composer import list_orders_composer
 from .order.patch_order_composer import patch_order_composer
+from .order.patch_order_end_date_composer import patch_order_end_date_composer
 
 

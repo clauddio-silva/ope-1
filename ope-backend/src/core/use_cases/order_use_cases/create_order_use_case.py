@@ -1,5 +1,5 @@
 from src.core.validations import create_order_validation as validate
-import datetime
+
 
 class CreateOrder:
 
@@ -7,8 +7,6 @@ class CreateOrder:
         self.order_repository = order_repository
 
     def create_order(self, done: bool,
-               initial_date: str,
-               end_date: str,
                consumed_in: str,
                table: int,
                payment_method: str,
@@ -16,8 +14,6 @@ class CreateOrder:
                confirmed: bool):
 
         invalid_inputs = validate(done=done,
-                                  initial_date=initial_date,
-                                  end_date=end_date,
                                   consumed_in=consumed_in,
                                   table=table,
                                   payment_method=payment_method,
@@ -25,8 +21,7 @@ class CreateOrder:
 
         input_is_valid = len(invalid_inputs) == 0
         if input_is_valid:
-            response = self.order_repository.create_order(done=done, initial_date=initial_date,
-                                                          end_date=end_date, consumed_in=consumed_in,
+            response = self.order_repository.create_order(done=done, consumed_in=consumed_in,
                                                           table=table, payment_method=payment_method,
                                                           obs=obs, confirmed=confirmed)
             return response

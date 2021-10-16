@@ -26,3 +26,4 @@ from .order_use_cases.create_order_use_case import CreateOrder
 from .order_use_cases.get_order_by_id_use_case import GetOrderById
 from .order_use_cases.list_orders_use_case import ListOrders
 from .order_use_cases.patch_order_use_case import PatchOrder
+from .order_use_cases.patch_order_end_date_use_case import PatchOrderEndDate

@@ -1,17 +1,19 @@
 from sqlalchemy.exc import IntegrityError, NoResultFound, MultipleResultsFound
 from src.infra.config import DBConnectionHandler
 from src.infra.db_entities import Orders as Order
+from datetime import datetime
 
 
 class OrderRepository:
 
     @classmethod
-    def create_order(cls, done: bool, initial_date: str, end_date: str,
-                     consumed_in : str, table:int, payment_method: str, obs: str,confirmed:bool ):
+    def create_order(cls, done: bool, consumed_in: str, table: int, payment_method: str, obs: str,
+                     confirmed: bool):
+        initial_date = datetime.now()
         with DBConnectionHandler() as db:
             try:
-                new_order = Order(done=done,initial_date=initial_date,end_date=end_date,consumed_in=consumed_in,
-                                      table=table, payment_method=payment_method,obs=obs,confirmed=confirmed)
+                new_order = Order(done=done, initial_date=initial_date, consumed_in=consumed_in, table=table, payment_method=payment_method,
+                                  obs=obs, confirmed=confirmed)
                 db.session.add(new_order)
                 db.session.commit()
                 return {
@@ -77,6 +79,29 @@ class OrderRepository:
 
                     db.session.commit()
                     return {"data": None, "status": 200, "errors": []}
+                return {"data": None, "status": 404, "errors": [f"Order de id {order_id} não existe"]}
+            except IntegrityError:
+                return {"data": None, "status": 409, "errors": [f"Nome de produto já existe."]}
+            except Exception as ex:
+                print(ex)
+                db.session.rollback()
+                return {"data": None, "status": 500, "errors": ["Algo deu errado na conexão com o banco de dados"]}
+            finally:
+                db.session.close()
+
+
+    def patch_order_end_date(self, order_id: int):
+
+        with DBConnectionHandler() as db:
+            try:
+
+                order = db.session.query(Order).filter_by(id=order_id).first()
+                end_date = datetime.now()
+                if order:
+                    order.end_date = end_date
+
+                    db.session.commit()
+                    return {"data": None, "status": 200, "Alterado com sucesso": []}
                 return {"data": None, "status": 404, "errors": [f"Order de id {order_id} não existe"]}
             except IntegrityError:
                 return {"data": None, "status": 409, "errors": [f"Nome de produto já existe."]}

@@ -1,7 +1,5 @@
 def create_order_validation(
         done: bool,
-        initial_date: str,
-        end_date: str,
         consumed_in: str,
         table: int,
         payment_method: str,
@@ -10,10 +8,6 @@ def create_order_validation(
     message: list[str] = []
     if not isinstance(done, bool) or done is None or done == "":
         message.append("status inválido")
-    if not isinstance(initial_date, str) or initial_date is None or initial_date == "":
-        message.append("Data inicial inválida")
-    if not isinstance(end_date, str) or end_date is None or end_date == "":
-        message.append("Data final inválida")
     if not isinstance(consumed_in, str) or consumed_in is None or consumed_in == "":
         message.append("Data de consumo inválida")
     if not isinstance(table, int) or table is None or table == "":

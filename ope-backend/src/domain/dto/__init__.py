@@ -7,4 +7,5 @@ from .product_to_update_dto import ProductToUpdate
 from .product_order_to_update_dto import Product_OrderToUpdate
 from .order_to_patch_dto import OrderToPatch
 from .login_user_dto import LoginUser
+from .order_to_patch_end_date_dto import OrderToPatchEndDate
 
